@@ -46,6 +46,18 @@ app.get("/player/:tag", async (req, res) => {
   }
 });
 
+app.get("/battlelog/:tag", async (req, res) => {
+  try {
+    const tag = req.params.tag.replace("#", "").toUpperCase();
+    const data = await brawlRequest(`/players/%23${tag}/battlelog`);
+    res.json(data);
+  } catch (err) {
+    res.status(err.status || 500).json({
+      error: err.message || "Failed to fetch player"
+    });
+  }
+});
+
 app.get("/club/:tag", async (req, res) => {
   try {
     const tag = req.params.tag.replace("#", "").toUpperCase();
