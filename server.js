@@ -69,9 +69,10 @@ app.get("/rankings/players", async (req, res) => {
   }
 });
 
-app.get("/rankings/players", async (req, res) => {
+app.get("/rankings/brawlers/:brawlerId", async (req, res) => {
   try {
-    const data = await brawlRequest(`/rankings/global/players`);
+    const id = req.params.brawlerId;
+    const data = await brawlRequest(`/rankings/global/brawlers/${id}`);
     res.json(data);
   } catch (err) {
     res.status(err.status || 500).json({
