@@ -10,6 +10,7 @@ app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.BRAWL_API_KEY;
+const GIPHY_API_KEY = process.env.GIPHY_API_KEY;
 const BASE_URL = "https://api.brawlstars.com/v1";
 
 async function brawlRequest(endpoint) {
@@ -135,6 +136,39 @@ app.get("/events", async (req, res) => {
     res.status(err.status || 500).json({
       error: err.message || "Failed to fetch events"
     });
+  }
+});
+
+app.get("/gif", async (req, res) => {
+  try {
+    const query = req.query.q;
+    const limit = 8;
+
+    let endpoint;
+
+    if (!query || query.toLowerCase() === "trending") {
+      endpoint = `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_API_KEY}&limit=${limit}&rating=pg`;
+    } else {
+      endpoint = `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(query)}&limit=${limit}&rating=pg`;
+    }
+
+    const response = await fetch(endpoint);
+    const data = await response.json();
+
+    if (!data.data.length) {
+      return res.status(404).json({ error: "No GIF found" });
+    }
+
+    const gifs = data.data.map(g => ({
+      id: g.id,
+      preview: g.images.fixed_width_small.url,
+      full: g.images.original.url
+    }));
+
+    res.json({ gifs });
+
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch GIFs" });
   }
 });
 
