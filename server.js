@@ -142,7 +142,7 @@ app.get("/events", async (req, res) => {
 app.get("/gif", async (req, res) => {
   try {
     const query = req.query.q;
-    const limit = 3;
+    const limit = 4;
 
     let endpoint;
 
