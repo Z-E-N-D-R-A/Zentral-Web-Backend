@@ -31,6 +31,12 @@ async function brawlRequest(endpoint) {
   return response.json();
 }
 
+app.get("/my-ip", async (req, res) => {
+  const response = await fetch("https://ipify.org");
+  const data = await response.json();
+  res.json(data);
+});
+
 app.get("/", (req, res) => {
   res.send("Brawl Backend Running 🚀");
 });
