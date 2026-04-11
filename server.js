@@ -32,9 +32,16 @@ async function brawlRequest(endpoint) {
 }
 
 app.get("/my-ip", async (req, res) => {
-  const response = await fetch("https://ipify.org");
-  const data = await response.json();
-  res.json(data);
+  console.log("IP request received!");
+  try {
+    const response = await fetch("https://ipify.org");
+    const data = await response.json();
+    console.log("Current Render IP:", data.ip);
+    res.json(data);
+  } catch (err) {
+    console.error("IP check failed:", err);
+    res.status(500).send("Error checking IP");
+  }
 });
 
 app.get("/", (req, res) => {
