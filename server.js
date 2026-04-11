@@ -13,8 +13,14 @@ const API_KEY = process.env.BRAWL_API_KEY;
 const GIPHY_API_KEY = process.env.GIPHY_API_KEY;
 const BASE_URL = "https://api.brawlstars.com/v1";
 
+import { HttpsProxyAgent } from 'https-proxy-agent';
+
+const proxyUrl = 'http://rslfqrvs:mdye112pk25w@198.23.239.134:6540';
+const agent = new HttpsProxyAgent(proxyUrl);
+
 async function brawlRequest(endpoint) {
   const response = await fetch(`${BASE_URL}${endpoint}`, {
+    agent: agent,
     headers: {
       Authorization: `Bearer ${API_KEY}`
     }
@@ -30,19 +36,6 @@ async function brawlRequest(endpoint) {
 
   return response.json();
 }
-
-app.get("/my-ip", async (req, res) => {
-  try {
-    // We fetch the IP as a string first to avoid JSON parsing errors
-    const response = await fetch("https://ipify.org");
-    const ipAddress = await response.text();
-    
-    // This will print the IP directly to your browser window
-    res.send(`<h1>Render Public IP: ${ipAddress}</h1><p>Add this IP to your Brawl Stars API Key settings.</p>`);
-  } catch (err) {
-    res.status(500).send(`Failed to get IP: ${err.message}`);
-  }
-});
 
 app.get("/", (req, res) => {
   res.send("Brawl Backend Running 🚀");
