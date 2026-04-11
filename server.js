@@ -11,7 +11,7 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 const API_KEY = process.env.BRAWL_API_KEY;
 const GIPHY_API_KEY = process.env.GIPHY_API_KEY;
-const BASE_URL = "https://royaleapi.com";
+const BASE_URL = "https://api.brawlstars.com/v1";
 
 async function brawlRequest(endpoint) {
   const response = await fetch(`${BASE_URL}${endpoint}`, {
