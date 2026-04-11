@@ -32,16 +32,15 @@ async function brawlRequest(endpoint) {
 }
 
 app.get("/my-ip", async (req, res) => {
-  console.log("IP request received!");
   try {
-    // Note the added ?format=json
-    const response = await fetch("https://api.ipify.org?format=json"); 
-    const data = await response.json();
-    console.log("Current Render IP:", data.ip);
-    res.json(data);
+    // We fetch the IP as a string first to avoid JSON parsing errors
+    const response = await fetch("https://ipify.org");
+    const ipAddress = await response.text();
+    
+    // This will print the IP directly to your browser window
+    res.send(`<h1>Render Public IP: ${ipAddress}</h1><p>Add this IP to your Brawl Stars API Key settings.</p>`);
   } catch (err) {
-    console.error("IP check failed:", err.message);
-    res.status(500).json({ error: err.message });
+    res.status(500).send(`Failed to get IP: ${err.message}`);
   }
 });
 
