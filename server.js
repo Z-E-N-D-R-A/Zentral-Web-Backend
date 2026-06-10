@@ -15,7 +15,7 @@ const BASE_URL = "https://api.brawlstars.com/v1";
 
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
-const proxyUrl = 'http://rslfqrvs:mdye112pk25w@198.23.239.134:6540';
+const proxyUrl = 'http://rslfqrvs:mdye112pk25w@38.154.203.95:5863/';
 const agent = new HttpsProxyAgent(proxyUrl);
 
 async function brawlRequest(endpoint) {
